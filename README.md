@@ -7,11 +7,13 @@ If anything is unclear or if you have suggestions for improvement please do get 
 The model is split into two distinct sections. Price to consumption, and consumption to harm.
 
 Price to consumption
+
 This consists of one R script file entitled "model_pc"
 It requires data some of which is not publically available. 
 Data sources include: South African Demographic and Health Survey 2016, International Alcohol Control Study and Euromonitor.
 
 Consumption to harm
+
 This part of the model consists of a number of script files which have to be run in the following order:
 "rr_and_pifs"
 "allocating_wealth_quintile"
