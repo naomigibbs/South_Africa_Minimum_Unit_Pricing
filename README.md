@@ -1,6 +1,6 @@
 # South_Africa_Minimum_Unit_Pricing
-The code for the MUP model for South Africa.
-Code is provided here for transparency. It is best read in combination with the published paper and in particular the 
+This is the code for the MUP model for South Africa provided here for transparency.
+It is best read in combination with the published paper and in particular the 
 supplementary appendix which describes the methods used in more detail.
 If anything is unclear or if you have suggestions for improvement please do get in touch.
 
