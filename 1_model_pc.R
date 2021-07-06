@@ -49,6 +49,15 @@ load("inputs/peak_model.Rda")
 # Generating baseline consumption
 ############################################################
 
+# telling R the variable is an ordered factor
+base_consumption$heavy_binge_mod <-
+  ordered(base_consumption$heavy_binge_mod, levels = c("abstainer", "moderate", "occ_binge", "heavy"), 
+          labels = c("Abstainer", "Moderate", "Occasional Binge", "Heavy"))
+
+price_changes$heavy_binge_mod <-
+  ordered(price_changes$heavy_binge_mod, levels = c("abstainer", "moderate", "occ_binge", "heavy"), 
+          labels = c("Abstainer", "Moderate", "Occasional Binge", "Heavy"))
+
 # combining the consumption for each individual with the mean prices paid by wealth group
 # and drinker group
 modelling <-
@@ -67,10 +76,6 @@ modelling %>% filter(dk/365 > dk_peak_base) %>% count(sex)
 # calculating base spend
 modelling$base_spend <-  modelling$mean_base_price * modelling$dk_rec
 
-# telling R the variable is an ordered factor
-modelling$heavy_binge_mod <-
-  ordered(modelling$heavy_binge_mod, levels = c("abstainer", "moderate", "occ_binge", "heavy"), 
-          labels = c("Abstainer", "Moderate", "Occasional Binge", "Heavy"))
 
 ############################################################
 # bringing in the elasticities
@@ -79,25 +84,42 @@ modelling$heavy_binge_mod <-
 # For the three categories of consumers, we use the following
 # price elasticities, namely -0.22 for binge drinkers,
 # -0.18 for other heavy drinkers and -0.4 for moderate drinkers
+# but for the ECEA we have adjusted them for wealth quintiles
+
+# these are the ones used in the base case
+elasticities <- modelling %>% dplyr::select(heavy_binge_mod, wealth) %>% distinct()
 
 # creating a vector
-elasticity <- c(NA, -0.4,  -0.22, -0.18)
-
-# creating a vector
-heavy_binge_mod <- c("abstainer", "moderate", "occ_binge", "heavy")
-
-# combinging the two vectors into a dataframe
-elasticities <- data.frame(heavy_binge_mod, elasticity)
-
-# converting heavy_binge_mod is an ordered factor variable so that it matches
-# the same variable in the modelling dataframe
-elasticities$heavy_binge_mod <-
-  ordered(elasticities$heavy_binge_mod, levels = c("abstainer", "moderate", "occ_binge", "heavy"),
-          labels = c("Abstainer", "Moderate", "Occasional Binge", "Heavy"))
+elasticities$elasticity <- ifelse(elasticities$heavy_binge_mod == "Moderate" & elasticities$wealth == "poorest", -0.53,
+                           ifelse(elasticities$heavy_binge_mod == "Moderate" & elasticities$wealth == "poorer", -0.53,
+                           ifelse(elasticities$heavy_binge_mod == "Moderate" & elasticities$wealth == "middle", -0.31,
+                           ifelse(elasticities$heavy_binge_mod == "Moderate" & elasticities$wealth == "richer", -0.31,
+                           ifelse(elasticities$heavy_binge_mod == "Moderate" & elasticities$wealth == "richest", -0.31,
+                           ifelse(elasticities$heavy_binge_mod == "Occasional Binge" & elasticities$wealth == "poorest", -0.29,
+                           ifelse(elasticities$heavy_binge_mod == "Occasional Binge" & elasticities$wealth == "poorer", -0.29,
+                           ifelse(elasticities$heavy_binge_mod == "Occasional Binge" & elasticities$wealth == "middle", -0.17,
+                           ifelse(elasticities$heavy_binge_mod == "Occasional Binge" & elasticities$wealth == "richer", -0.17,
+                           ifelse(elasticities$heavy_binge_mod == "Occasional Binge" & elasticities$wealth == "richest", -0.17,
+                           ifelse(elasticities$heavy_binge_mod == "Heavy" & elasticities$wealth == "poorest", -0.24,
+                           ifelse(elasticities$heavy_binge_mod == "Heavy" & elasticities$wealth == "poorer", -0.24,
+                           ifelse(elasticities$heavy_binge_mod == "Heavy" & elasticities$wealth == "middle", -0.14,
+                           ifelse(elasticities$heavy_binge_mod == "Heavy" & elasticities$wealth == "richer", -0.14,
+                           ifelse(elasticities$heavy_binge_mod == "Heavy" & elasticities$wealth == "richest", -0.14, NA)))))))))))))))
 
 # joining the elasticities into the main modelling dataframe
 modelling <-
-  left_join(modelling, elasticities, by = "heavy_binge_mod")
+  left_join(modelling, elasticities, by = c("heavy_binge_mod", "wealth"))
+
+############################################################
+# calculating perc change in mean price for my results paper
+############################################################
+
+perc_change_price_table <- modelling %>% mutate(perc_change_R5 = (mean_R5_mup - mean_base_price)/mean_base_price) %>% 
+  mutate(perc_change_R10 = (mean_R10_mup - mean_base_price)/mean_base_price) %>%
+  mutate(perc_change_R15 = (mean_R15_mup - mean_base_price)/mean_base_price)
+  
+perc_change_price_table %>% group_by(heavy_binge_mod, wealth) %>% summarise(weighted.mean(perc_change_R10, pop_wt))
+
 
 ############################################################
 # calculating consumption following a change in mean price
@@ -196,24 +218,27 @@ modelling %>% filter(dk_rec > 0) %>%
 # homebrew drinkers increasing their homebrew consumption 
 # by 30% of the drop in recorded consumption
 
+# to test this assumption for sensitivity analysis I varied 0.3 
+# to 0 and to 1.
+
 modelling <-
   modelling %>% mutate(dk_R5 = ifelse(dk_hb > 0, dk_rec_R5 + dk_hb + 0.3*(dk_rec - dk_rec_R5), dk_rec_R5))
 
 # sense check. dk_R5 should be less than dk which is baseline 
 # drinking including both homebrew and recorded
-modelling %>% filter(dk_hb > 0) %>% select(dk_R5, dk_rec_R5, dk_hb, dk_rec, dk)
+modelling %>% filter(dk_hb > 0) %>% dplyr::select(dk_R5, dk_rec_R5, dk_hb, dk_rec, dk)
                        
                        
 modelling <-
   modelling %>% mutate(dk_R10 = ifelse(dk_hb > 0, dk_rec_R10 + dk_hb + 0.3*(dk_rec - dk_rec_R10), dk_rec_R10))
 # check
-modelling %>% filter(dk_hb > 0) %>% select(dk_R10, dk_rec_R10, dk_hb, dk_rec, dk)
+modelling %>% filter(dk_hb > 0) %>% dplyr::select(dk_R10, dk_rec_R10, dk_hb, dk_rec, dk)
                        
                        
 modelling <-
   modelling %>% mutate(dk_R15 = ifelse(dk_hb > 0, dk_rec_R15 + dk_hb + 0.3*(dk_rec - dk_rec_R15), dk_rec_R15))
 # check
-modelling %>% filter(dk_hb > 0) %>% select(dk_R15, dk_rec_R15, dk_hb, dk_rec, dk)
+modelling %>% filter(dk_hb > 0) %>% dplyr::select(dk_R15, dk_rec_R15, dk_hb, dk_rec, dk)
 
 
 # checking
