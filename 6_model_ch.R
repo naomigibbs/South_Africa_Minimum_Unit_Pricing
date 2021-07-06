@@ -416,6 +416,10 @@ names(prev_bcancer_base) <- namesVec
 
 # joining them altogether into one dataframe
 prev_base_f <- bind_cols(prev_hiv_base, prev_ii_base, prev_road_base, prev_liver_base, prev_bcancer_base)
+prev_base_f <- rename(prev_base_f, age = "age...113")
+prev_base_f <- rename(prev_base_f, wealth = "wealth...114")
+prev_base_f <- rename(prev_base_f, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_base_f <- prev_base_f %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 # sense check
@@ -511,6 +515,11 @@ names(prev_bcancer_R5) <- namesVec
 
 # joining them altogether into one dataframe
 prev_R5_f <- bind_cols(prev_hiv_R5, prev_ii_R5, prev_road_R5, prev_liver_R5, prev_bcancer_R5)
+
+prev_R5_f <- rename(prev_R5_f, age = "age...113")
+prev_R5_f <- rename(prev_R5_f, wealth = "wealth...114")
+prev_R5_f <- rename(prev_R5_f, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_R5_f <- prev_R5_f %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -594,6 +603,11 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_R10) <- namesVec
 
 prev_R10_f <- bind_cols(prev_hiv_R10, prev_ii_R10, prev_road_R10, prev_liver_R10, prev_bcancer_R10)
+prev_R10_f <- rename(prev_R10_f, age = "age...113")
+prev_R10_f <- rename(prev_R10_f, wealth = "wealth...114")
+prev_R10_f <- rename(prev_R10_f, heavy_binge_mod = "heavy_binge_mod...115")
+
+
 prev_R10_f <- prev_R10_f %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -677,6 +691,10 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_R15) <- namesVec
 
 prev_R15_f <- bind_cols(prev_hiv_R15, prev_ii_R15, prev_road_R15, prev_liver_R15, prev_bcancer_R15)
+prev_R15_f <- rename(prev_R15_f, age = "age...113")
+prev_R15_f <- rename(prev_R15_f, wealth = "wealth...114")
+prev_R15_f <- rename(prev_R15_f, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_R15_f <- prev_R15_f %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -761,6 +779,11 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_extreme) <- namesVec
 
 prev_extreme_f <- bind_cols(prev_hiv_extreme, prev_ii_extreme, prev_road_extreme, prev_liver_extreme, prev_bcancer_extreme)
+prev_extreme_f <- rename(prev_extreme_f, age = "age...113")
+prev_extreme_f <- rename(prev_extreme_f, wealth = "wealth...114")
+prev_extreme_f <- rename(prev_extreme_f, heavy_binge_mod = "heavy_binge_mod...115")
+
+
 prev_extreme_f <- prev_extreme_f %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -826,6 +849,11 @@ names(prev_bcancer_base) <- namesVec
 
 # joining them altogether into one dataframe
 prev_base_m <- bind_cols(prev_hiv_base, prev_ii_base, prev_road_base, prev_liver_base, prev_bcancer_base)
+prev_base_m <- rename(prev_base_m, age = "age...113")
+prev_base_m <- rename(prev_base_m, wealth = "wealth...114")
+prev_base_m <- rename(prev_base_m, heavy_binge_mod = "heavy_binge_mod...115")
+
+
 prev_base_m <- prev_base_m %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 # sense check
@@ -908,6 +936,10 @@ names(prev_bcancer_R5) <- namesVec
 
 # joining them altogether into one dataframe
 prev_R5_m <- bind_cols(prev_hiv_R5, prev_ii_R5, prev_road_R5, prev_liver_R5, prev_bcancer_R5)
+prev_R5_m <- rename(prev_R5_m, age = "age...113")
+prev_R5_m <- rename(prev_R5_m, wealth = "wealth...114")
+prev_R5_m <- rename(prev_R5_m, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_R5_m <- prev_R5_m %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -978,6 +1010,10 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_R10) <- namesVec
 
 prev_R10_m <- bind_cols(prev_hiv_R10, prev_ii_R10, prev_road_R10, prev_liver_R10, prev_bcancer_R10)
+prev_R10_m <- rename(prev_R10_m, age = "age...113")
+prev_R10_m <- rename(prev_R10_m, wealth = "wealth...114")
+prev_R10_m <- rename(prev_R10_m, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_R10_m <- prev_R10_m %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -1050,6 +1086,10 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_R15) <- namesVec
 
 prev_R15_m <- bind_cols(prev_hiv_R15, prev_ii_R15, prev_road_R15, prev_liver_R15, prev_bcancer_R15)
+prev_R15_m <- rename(prev_R15_m, age = "age...113")
+prev_R15_m <- rename(prev_R15_m, wealth = "wealth...114")
+prev_R15_m <- rename(prev_R15_m, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_R15_m <- prev_R15_m %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 
@@ -1122,6 +1162,10 @@ namesVec <- gsub("pop", "prev_bcancer", namesVec)
 names(prev_bcancer_extreme) <- namesVec
 
 prev_extreme_m <- bind_cols(prev_hiv_extreme, prev_ii_extreme, prev_road_extreme, prev_liver_extreme, prev_bcancer_extreme)
+prev_extreme_m <- rename(prev_extreme_m, age = "age...113")
+prev_extreme_m <- rename(prev_extreme_m, wealth = "wealth...114")
+prev_extreme_m <- rename(prev_extreme_m, heavy_binge_mod = "heavy_binge_mod...115")
+
 prev_extreme_m <- prev_extreme_m %>% select(starts_with("prev_"), age, wealth, heavy_binge_mod)
 
 ##################################################################################
