@@ -257,8 +257,17 @@ results_costs$wealth <- ordered(results_costs$wealth, c("poorest", "poorer", "mi
 #### Visualising the results                 ####
 #################################################
 # first a simple table
-results_costs %>% group_by(policy) %>% summarise(sum(cost_hiv), sum(cost_ii), sum(cost_road), sum(cost_liver), sum(cost_bcancer))
+a <- results_costs %>% group_by(policy, wealth) %>% summarise(round(sum(cost_hiv)/1000000, 2), 
+                                                              signif(sum(cost_ii)/1000000, 7),
+                                                             signif(sum(cost_road)/1000000, 7), 
+                                                              round(sum(cost_liver)/1000000, 2),
+                                                              round(sum(cost_bcancer)/1000000, 2))
+a
 
+b <- results_costs %>% group_by(policy) %>% summarise(sum(cost_hiv), sum(cost_ii), sum(cost_road), sum(cost_liver), sum(cost_bcancer))
+b
+
+# total costs
 results_costs %>% group_by(policy) %>% summarise(sum(cost_hiv) + sum(cost_ii) + sum(cost_road) + sum(cost_liver) + sum(cost_bcancer))
 
 # remember with bar chart you have to sum all the columns first
