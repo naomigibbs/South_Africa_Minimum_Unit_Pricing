@@ -169,7 +169,7 @@ mortality_cases
 props %>% group_by(sex, disease) %>% summarise(sum(deaths_equal_quintiles))
 
 # add in the population size if the quintiles were of equal size in 2018
-props <- left_join(props, population_2018, by = 'sex')
+
 props <- props %>% mutate(pop_equal_quintile = population/5)
 
 # create the population in each quintile if we have the same distribution between the quintiles
